@@ -1,11 +1,23 @@
-import React from 'react'
+import React, { Suspense } from 'react'
 import ReactDOM from 'react-dom'
-import App from './App'
+import { BrowserRouter, Switch, Route } from 'react-router-dom'
+import Routes from './routes'
 import reportWebVitals from './reportWebVitals'
+
+const loading = (): JSX.Element => <p>Loading...</p>
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <Suspense fallback={loading}>
+        <BrowserRouter>
+            <Switch>
+              {Routes.map((route, index) => (
+                <Route key={index} {...route} />
+              ))}
+              <Route render={() => <h1>Not Found</h1>} />
+            </Switch>
+        </BrowserRouter>
+      </Suspense>
   </React.StrictMode>,
   document.getElementById('root')
 )
